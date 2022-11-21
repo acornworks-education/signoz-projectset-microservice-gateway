@@ -1,0 +1,17 @@
+version: "3.6"
+
+services:
+  gateway:
+    build: .
+    ports:
+      - "65080:9080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9080/actuator/metrics/process.uptime"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  default:
+    name: projectset

@@ -1,0 +1,37 @@
+server.port: 9080
+logging.level.org.springframework.cloud.gateway: TRACE
+management.endpoints.web.exposure.include: '*'
+spring.cloud:
+  discovery.enabled: false
+  gateway:
+    globalcors:
+      cors-configurations:
+        '[/**]':
+          allowedOrigins:
+            - http://localhost:61080
+          allowedMethods:
+            - GET
+            - POST
+            - DELETE
+            - PUT
+            - OPTION
+    routes:
+      - id: Ticker Route
+        uri: http://ticker:8080
+        predicates:
+        - Path=/ticker/**
+        filters:
+        - RewritePath=/(?<url>.*), /${url}
+      - id: Price Route
+        uri: http://price:3000
+        predicates:
+        - Path=/price/**
+        filters:
+        - RewritePath=/(?<url>.*), /${url}
+      - id: Strategy Route
+        uri: http://strategy:65030
+        predicates:
+        - Path=/strategy/**
+        filters:
+        - RewritePath=/(?<url>.*), /${url}
+
