@@ -6,7 +6,7 @@ services:
     ports:
       - "65080:9080"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9080/actuator/metrics/process.uptime"]
+      test: ["CMD", "curl", "-f", "http://localhost:9080/ticker/list"]
       interval: 1m30s
       timeout: 10s
       retries: 3
