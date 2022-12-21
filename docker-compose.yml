@@ -5,6 +5,7 @@ services:
     build: .
     ports:
       - "65080:9080"
+    image: k830206/signoz-gateway:latest
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9080/ticker/list"]
       interval: 1m30s

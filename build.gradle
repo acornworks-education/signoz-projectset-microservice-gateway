@@ -30,3 +30,16 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+task checkOtel {
+	def libUrl = "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar";
+	def otelFile = new File("lib/opentelemetry-javaagent.jar");
+
+	if (otelFile.exists()) {
+		println("The OpenTelemetry library file exists ...");
+	} else {
+		mkdir("lib");
+		ant.get(src: libUrl, dest: otelFile);
+	}
+}
+
+build.finalizedBy(checkOtel)
