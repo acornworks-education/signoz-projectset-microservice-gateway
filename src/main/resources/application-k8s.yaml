@@ -1,15 +1,12 @@
 server.port: 9080
 logging.level.org.springframework.cloud.gateway: TRACE
-management.endpoints.web.exposure.include: '*'
 namespace: acornworks
+management.endpoints.web.exposure.include: prometheus,health,info,metric
+management.health.probes.enabled: true
 management:
   endpoint:
-    health:
-      group:
-        custom:
-          include: diskSpace,ping
-          show-components: always
-          show-details: always
+    health.show-details: always
+    prometheus.enabled: true
 spring.cloud:
   discovery.enabled: false
   gateway:
