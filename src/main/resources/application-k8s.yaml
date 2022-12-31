@@ -1,6 +1,12 @@
 server.port: 9080
 logging.level.org.springframework.cloud.gateway: TRACE
-management.endpoints.web.exposure.include: '*'
+namespace: acornworks
+management.endpoints.web.exposure.include: prometheus,health,info,metric
+management.health.probes.enabled: true
+management:
+  endpoint:
+    health.show-details: always
+    prometheus.enabled: true
 spring.cloud:
   discovery.enabled: false
   gateway:
@@ -8,7 +14,7 @@ spring.cloud:
       cors-configurations:
         '[/**]':
           allowedOrigins:
-            - http://localhost:61080
+            - "*"
           allowedMethods:
             - GET
             - POST
@@ -17,19 +23,19 @@ spring.cloud:
             - OPTION
     routes:
       - id: Ticker Route
-        uri: http://ticker:8080
+        uri: http://ticker.${namespace}.svc:65010
         predicates:
         - Path=/ticker/**
         filters:
         - RewritePath=/(?<url>.*), /${url}
       - id: Price Route
-        uri: http://price:3000
+        uri: http://price.${namespace}.svc:65020
         predicates:
         - Path=/price/**
         filters:
         - RewritePath=/(?<url>.*), /${url}
       - id: Strategy Route
-        uri: http://strategy:65030
+        uri: http://strategy.${namespace}.svc:65030
         predicates:
         - Path=/strategy/**
         filters:
